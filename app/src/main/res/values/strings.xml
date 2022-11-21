@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Cafeteria_BlueMeth</string>
+    <string name="email_input_text">Email</string>
 </resources>
