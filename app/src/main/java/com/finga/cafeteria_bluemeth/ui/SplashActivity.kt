@@ -1,4 +1,4 @@
-package com.finga.cafeteria_bluemeth
+package com.finga.cafeteria_bluemeth.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

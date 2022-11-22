@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Cafeteria_BlueMeth</string>
     <string name="email_input_text">Email</string>
+    <string name="password_input_text">Password</string>
+    <string name="login_text">Inicia sesión y disfruta!</string>
+    <string name="login_button_text">Inicia sesión!</string>
+    <string name="login_to_register_text">No estás registrado? Regístrate</string>
 </resources>
