@@ -7,7 +7,7 @@ import android.os.Bundle
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startActivity(Intent(this, LoginActivity::class.java))
+        startActivity(Intent(this, RegisterActivity::class.java))
         finish()
     }
 }
