@@ -5,9 +5,14 @@
     <string name="nickname_input_text">Password</string>
     <string name="login_text">Inicia sesión y disfruta!</string>
     <string name="login_button_text">Inicia sesión!</string>
-    <string name="login_to_register_text">No estás registrado? Regístrate</string>
+    <string name="login_to_register_text">No estás registrado? <u>Regístrate</u></string>
     <string name="register_text">Únete a nosotros!</string>
     <string name="register_button_text">Regístrate</string>
-    <string name="register_to_login_text">Ya tienes una cuenta? Inicia sesión</string>
+    <string name="register_to_login_text">Ya tienes una cuenta? <u>Inicia sesión</u></string>
+    <string name="first_dish">1r PLATO</string>
+    <string name="second_dish">2ndo PLATO</string>
+    <string name="third_dish">POSTRE</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
