@@ -5,13 +5,17 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.adapters.ListDishAdapter
-import com.finga.cafeteria_bluemeth.data.DataFishes
 import com.finga.cafeteria_bluemeth.databinding.FragmentThirdDishBinding
+import com.finga.cafeteria_bluemeth.models.Dish
+import com.finga.cafeteria_bluemeth.viewmodel.DishViewModel
 
 class ThirdDishFragment : Fragment() {
+    private val dishViewModel: DishViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -22,36 +26,43 @@ class ThirdDishFragment : Fragment() {
         )
         setHasOptionsMenu(true)
 
-        val myDataset = DataFishes().thirdDishes()
+        val myDataset = dishViewModel.thirdDishes()
 
         val recyclerView = binding.RecyclerView
-        val manager = LinearLayoutManager(requireContext())
-        recyclerView.layoutManager = manager
+
+        var listDishAdapter = ListDishAdapter(myDataset)
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = ListDishAdapter(requireContext(), myDataset)
+        recyclerView.adapter = listDishAdapter
+
+        listDishAdapter.setOnItemClickListener(object : ListDishAdapter.onItemClickListener {
+            override fun onItemClick(plat: Dish) {
+                Toast.makeText(requireActivity(), "${plat.name}, ${plat.price}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+        })
+
         return binding.root
     }
 
-    //enable options menu in this fragment
-    override fun onCreate(savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
-        super.onCreate(savedInstanceState)
-    }
     //inflate the menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater!!.inflate(R.menu.menu_main, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
     //handle item clicks of menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         //get item id to handle item clicks
         val id = item!!.itemId
         //handle item clicks
-        if (id == R.id.action_settings){
+        if (id == R.id.action_settings) {
             //do your action here, im just showing toast
             Toast.makeText(activity, "Settings", Toast.LENGTH_SHORT).show()
         }
-        if (id == R.id.action_sort){
+        if (id == R.id.action_sort) {
             //do your action here, im just showing toast
             Toast.makeText(activity, "Sort", Toast.LENGTH_SHORT).show()
         }

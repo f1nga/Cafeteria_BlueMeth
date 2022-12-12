@@ -2,8 +2,15 @@ package com.finga.cafeteria_bluemeth.ui.pages.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.Data
+import android.util.Log
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.finga.cafeteria_bluemeth.data.DataFishes
+import com.finga.cafeteria_bluemeth.data.DataUsers
 import com.finga.cafeteria_bluemeth.databinding.ActivityLoginBinding
+import com.finga.cafeteria_bluemeth.models.User
 import com.finga.cafeteria_bluemeth.ui.pages.home.HomeActivity
 import com.finga.cafeteria_bluemeth.ui.register.RegisterActivity
 
@@ -25,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
         var btnLogin = binding.btnLogin
 
         btnLogin.setOnClickListener() {
+            DataUsers().login(User(binding.inputEmailText.text.toString(), binding.inputPasswordText.text.toString()))
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }

@@ -5,14 +5,20 @@ import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.adapters.ListDishAdapter
-import com.finga.cafeteria_bluemeth.data.DataFishes
 import com.finga.cafeteria_bluemeth.databinding.FragmentFirstDishBinding
-
+import com.finga.cafeteria_bluemeth.models.Dish
+import com.finga.cafeteria_bluemeth.viewmodel.DishViewModel
 
 class FirstDishFragment : Fragment() {
+    private val dishViewModel: DishViewModel by viewModels()
+    private lateinit var sm : SendDish
+    lateinit var recyclerView: RecyclerView
+    lateinit var listDishAdapter: ListDishAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,21 +31,28 @@ class FirstDishFragment : Fragment() {
         )
         setHasOptionsMenu(true)
 
-        val myDataset = DataFishes().firstDishes()
+        val myDataset = dishViewModel.firstDishes()
 
-        val recyclerView = binding.RecyclerView
+        recyclerView = binding.RecyclerView
+
+        listDishAdapter = ListDishAdapter(myDataset)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = ListDishAdapter(requireContext(), myDataset)
+        recyclerView.adapter = listDishAdapter
+
+        sm = activity as SendDish
+
+        listDishAdapter.setOnItemClickListener(object: ListDishAdapter.onItemClickListener{
+            override fun onItemClick(plat: Dish) {
+                sm.sendDataToSecondFragment(plat)
+                sm.sendDataToBillFragment(plat)
+            }
+        })
         return binding.root
     }
 
-    //enable options menu in this fragment
-    override fun onCreate(savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
-        super.onCreate(savedInstanceState)
-    }
+
     //inflate the menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater!!.inflate(R.menu.menu_main, menu)

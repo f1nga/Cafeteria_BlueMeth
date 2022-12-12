@@ -1,42 +1,64 @@
 package com.finga.cafeteria_bluemeth.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.models.Dish
-import org.w3c.dom.Text
 
 class ListDishAdapter(
-    private val context: Context,
-    private val dataset: List<Dish>
+    private val dataset: ArrayList<Dish>?
 ) : RecyclerView.Adapter<ListDishAdapter.ItemViewHolder>() {
 
-    class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+     private lateinit var mListener : onItemClickListener
+
+    interface onItemClickListener {
+        fun onItemClick(plat: Dish)
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener) {
+        mListener = listener
+    }
+
+    class ItemViewHolder(private val view: View, listener: onItemClickListener) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.idNombre)
         var imgView: ImageView = view.findViewById(R.id.idImagen)
         var priceView: TextView = view.findViewById(R.id.idPrecio)
+
+        init {
+            itemView.setOnClickListener {
+                val preuFinal = priceView.text.split("€")[0].toInt()
+                listener.onItemClick(Dish(textView.text.toString(), preuFinal, R.drawable.macarrones))
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        // create a new view
         val adapterLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.card_list, parent, false)
-
-        return ItemViewHolder(adapterLayout)
+        return ItemViewHolder(adapterLayout, mListener)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = dataset[position]
+        val item = dataset?.get(position) ?: return
         holder.textView.text = item.name
         holder.imgView.setBackgroundResource(item.image)
         holder.priceView.text = "${item.price}€"
     }
 
-    override fun getItemCount() = dataset.size
+
+    override fun getItemCount(): Int {
+        if(dataset?.size == null){
+            return 0
+        }
+        return dataset!!.size
+    }
+
 }
+

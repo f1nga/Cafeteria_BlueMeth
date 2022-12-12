@@ -5,14 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.adapters.ViewPagerAdapter
-import com.finga.cafeteria_bluemeth.ui.pages.home.tabs.BillFragment
-import com.finga.cafeteria_bluemeth.ui.pages.home.tabs.FirstDishFragment
-import com.finga.cafeteria_bluemeth.ui.pages.home.tabs.SecondDishFragment
-import com.finga.cafeteria_bluemeth.ui.pages.home.tabs.ThirdDishFragment
+import com.finga.cafeteria_bluemeth.models.Dish
+import com.finga.cafeteria_bluemeth.ui.pages.home.tabs.*
 import com.google.android.material.tabs.TabLayout
 
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), SendDish {
+    lateinit var viewPager: ViewPager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -24,10 +24,33 @@ class HomeActivity : AppCompatActivity() {
         adapter.addFragment(ThirdDishFragment(), "POSTRE")
         adapter.addFragment(BillFragment(), "PAGAR")
 
-        val viewPager = findViewById<ViewPager>(R.id.viewPager)
+        viewPager = findViewById<ViewPager>(R.id.viewPager)
         val tabs = findViewById<TabLayout>(R.id.tabs)
 
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
+
+
+
     }
+
+    override fun sendDataToSecondFragment(plat: Dish?) {
+        val tag = "android:switcher:" + R.id.viewPager.toString()+":"+1
+        val f = supportFragmentManager.findFragmentByTag(tag) as SecondDishFragment
+
+        f.displayReceivedData(plat!!)
+        var currentItem = getItem(+1)
+        viewPager.currentItem = currentItem
+
+    }
+
+    override fun sendDataToBillFragment(plat: Dish?) {
+        val tag = "android:switcher:" + R.id.viewPager.toString() + ":" + 3
+
+        (supportFragmentManager.findFragmentByTag(tag) as? BillFragment)?.displayReceivedData(plat!!)
+        var currentItem = getItem(+3)
+        viewPager.currentItem = currentItem
+    }
+
+    fun getItem(i: Int) = viewPager.currentItem + i
 }

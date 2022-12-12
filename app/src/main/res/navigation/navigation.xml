@@ -5,7 +5,7 @@
 
     android:id="@+id/navigation"
     android:label="@string/app_name"
-    app:startDestination="@id/firstDishFragment">
+    app:startDestination="@id/secondDishFragment">
     <fragment
         android:id="@+id/firstDishFragment"
         android:name="com.finga.cafeteria_bluemeth.ui.pages.home.tabs.FirstDishFragment"
@@ -19,5 +19,21 @@
         android:id="@+id/secondDishFragment"
         android:name="com.finga.cafeteria_bluemeth.ui.pages.home.tabs.SecondDishFragment"
         android:label="SecondDishFragment"
-        tools:layout="@layout/fragment_second_fish"/>
+        tools:layout="@layout/fragment_second_fish">
+        <action
+            android:id="@+id/action_secondDishFragment_to_thirdDishFragment"
+            app:destination="@id/thirdDishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/thirdDishFragment"
+        android:name="com.finga.cafeteria_bluemeth.ui.pages.home.tabs.ThirdDishFragment"
+        android:label="ThirdDishFragment" >
+        <action
+            android:id="@+id/action_thirdDishFragment_to_billFragment"
+            app:destination="@id/billFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/billFragment"
+        android:name="com.finga.cafeteria_bluemeth.ui.pages.home.tabs.BillFragment"
+        android:label="BillFragment" />
 </navigation>
