@@ -12,7 +12,4 @@
     <string name="first_dish">1r PLATO</string>
     <string name="second_dish">2ndo PLATO</string>
     <string name="third_dish">POSTRE</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>

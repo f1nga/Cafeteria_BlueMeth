@@ -24,32 +24,19 @@ class HomeActivity : AppCompatActivity(), SendDish {
         adapter.addFragment(ThirdDishFragment(), "POSTRE")
         adapter.addFragment(BillFragment(), "PAGAR")
 
-        viewPager = findViewById<ViewPager>(R.id.viewPager)
+        viewPager = findViewById(R.id.viewPager)
         val tabs = findViewById<TabLayout>(R.id.tabs)
 
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
-
-
-
-    }
-
-    override fun sendDataToSecondFragment(plat: Dish?) {
-        val tag = "android:switcher:" + R.id.viewPager.toString()+":"+1
-        val f = supportFragmentManager.findFragmentByTag(tag) as SecondDishFragment
-
-        f.displayReceivedData(plat!!)
-        var currentItem = getItem(+1)
-        viewPager.currentItem = currentItem
-
     }
 
     override fun sendDataToBillFragment(plat: Dish?) {
         val tag = "android:switcher:" + R.id.viewPager.toString() + ":" + 3
 
         (supportFragmentManager.findFragmentByTag(tag) as? BillFragment)?.displayReceivedData(plat!!)
-        var currentItem = getItem(+3)
-        viewPager.currentItem = currentItem
+        var currentItem = getItem(+1)
+        //viewPager.currentItem = currentItem
     }
 
     fun getItem(i: Int) = viewPager.currentItem + i

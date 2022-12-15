@@ -1,6 +1,7 @@
 package com.finga.cafeteria_bluemeth.ui.pages.home.tabs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -45,10 +46,10 @@ class FirstDishFragment : Fragment() {
 
         listDishAdapter.setOnItemClickListener(object: ListDishAdapter.onItemClickListener{
             override fun onItemClick(plat: Dish) {
-                sm.sendDataToSecondFragment(plat)
                 sm.sendDataToBillFragment(plat)
             }
         })
+
         return binding.root
     }
 

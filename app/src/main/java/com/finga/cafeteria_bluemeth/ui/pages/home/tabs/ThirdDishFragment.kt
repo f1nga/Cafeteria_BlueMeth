@@ -15,6 +15,8 @@ import com.finga.cafeteria_bluemeth.viewmodel.DishViewModel
 
 class ThirdDishFragment : Fragment() {
     private val dishViewModel: DishViewModel by viewModels()
+    private lateinit var sm : SendDish
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +38,12 @@ class ThirdDishFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = listDishAdapter
 
-        listDishAdapter.setOnItemClickListener(object : ListDishAdapter.onItemClickListener {
-            override fun onItemClick(plat: Dish) {
-                Toast.makeText(requireActivity(), "${plat.name}, ${plat.price}", Toast.LENGTH_SHORT)
-                    .show()
-            }
+        sm = activity as SendDish
 
+        listDishAdapter.setOnItemClickListener(object: ListDishAdapter.onItemClickListener{
+            override fun onItemClick(plat: Dish) {
+                sm.sendDataToBillFragment(plat)
+            }
         })
 
         return binding.root

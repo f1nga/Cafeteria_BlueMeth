@@ -2,12 +2,7 @@ package com.finga.cafeteria_bluemeth.ui.pages.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.Data
-import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.finga.cafeteria_bluemeth.data.DataFishes
 import com.finga.cafeteria_bluemeth.data.DataUsers
 import com.finga.cafeteria_bluemeth.databinding.ActivityLoginBinding
 import com.finga.cafeteria_bluemeth.models.User

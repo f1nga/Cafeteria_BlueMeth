@@ -7,8 +7,6 @@ import com.finga.cafeteria_bluemeth.models.Dish
 
 class DishViewModel : ViewModel() {
 
-    val dishModel = MutableLiveData<ArrayList<Dish>>()
-
     fun firstDishes(): ArrayList<Dish> {
         return DishProvider.firstDishes()
     }

@@ -6,24 +6,24 @@ import com.finga.cafeteria_bluemeth.models.Dish
 class DishProvider {
     companion object {
         private val firstDishes = arrayListOf<Dish>(
-            Dish("Macarro", 50, R.drawable.macarrones),
-            Dish("Macarro", 50, R.drawable.macarrones),
-            Dish("Macarro", 50, R.drawable.macarrones),
-            Dish("Macarro", 50, R.drawable.macarrones)
+            Dish("Mocorro", 7, R.drawable.macarrones,),
+            Dish("Conolo", 9, R.drawable.canelones),
+            Dish("Losogno", 12, R.drawable.lasagna),
+            Dish("Monostro", 6, R.drawable.menestra)
         )
 
         private val secondDishes = arrayListOf<Dish>(
-            Dish("Entrecot", 500, R.drawable.entrecot),
-            Dish("Entrecot", 500, R.drawable.entrecot),
-            Dish("Entrecot", 500, R.drawable.entrecot),
-            Dish("Entrecot", 500, R.drawable.entrecot)
+            Dish("Entrecot", 17, R.drawable.entrecot),
+            Dish("Chuletas", 13, R.drawable.chuletas),
+            Dish("Pollo ast", 11, R.drawable.pollo),
+            Dish("Pulpito", 19, R.drawable.pulpo)
         )
 
         private val thirdDishes = arrayListOf<Dish>(
-            Dish("Crema catalana", 30, R.drawable.crema_catalana),
-            Dish("Crema catalana", 30, R.drawable.crema_catalana),
-            Dish("Crema catalana", 30, R.drawable.crema_catalana),
-            Dish("Crema catalana", 30, R.drawable.crema_catalana),
+            Dish("Sorbette", 6, R.drawable.sorbette),
+            Dish("Calippo", 3, R.drawable.calippo),
+            Dish("Natillas", 5, R.drawable.natillas),
+            Dish("Limonada", 4, R.drawable.limonada),
         )
 
         fun firstDishes(): ArrayList<Dish> {
