@@ -49,6 +49,6 @@ class BillFragmentController {
             "Calippo" -> return R.drawable.calippo
             "Limonada" -> return R.drawable.limonada
         }
-        return 0
+        return -1
     }
 }

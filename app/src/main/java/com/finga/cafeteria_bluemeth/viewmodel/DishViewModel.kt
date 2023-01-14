@@ -18,6 +18,4 @@ class DishViewModel : ViewModel() {
     fun thirdDishes(): ArrayList<Dish> {
         return DishProvider.thirdDishes()
     }
-
-
 }

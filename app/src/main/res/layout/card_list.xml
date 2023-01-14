@@ -79,13 +79,6 @@
                 android:src="@drawable/ic_add"
                 android:background="@color/grey"
                 />
-
-            <!-- <Button
-                android:id="@+id/btnPedir"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:text="PEDIR" /> -->
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

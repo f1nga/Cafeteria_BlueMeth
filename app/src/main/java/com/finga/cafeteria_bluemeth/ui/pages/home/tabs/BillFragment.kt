@@ -1,6 +1,7 @@
 package com.finga.cafeteria_bluemeth.ui.pages.home.tabs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
@@ -16,6 +17,7 @@ import com.finga.cafeteria_bluemeth.adapters.ListDishAdapter
 import com.finga.cafeteria_bluemeth.databinding.FragmentBillBinding
 import com.finga.cafeteria_bluemeth.models.Dish
 import com.finga.cafeteria_bluemeth.ui.pages.home.controllers.BillFragmentController
+import com.finga.cafeteria_bluemeth.viewmodel.BillViewModel
 import com.finga.cafeteria_bluemeth.viewmodel.DishViewModel
 
 class BillFragment : Fragment() {
@@ -23,6 +25,7 @@ class BillFragment : Fragment() {
     lateinit var listDishAdapter: ListDishAdapter
     var listPlats: ArrayList<Dish> = ArrayList()
     private lateinit var txtPreu: TextView
+    private val viewModel : BillViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

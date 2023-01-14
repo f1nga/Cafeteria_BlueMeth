@@ -17,18 +17,17 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var btnLogin = binding.btnLogin
+
+        btnLogin.setOnClickListener() {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
         var txtFinal = binding.txtFinal
 
         txtFinal.setOnClickListener() {
             val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
-
-        var btnLogin = binding.btnLogin
-
-        btnLogin.setOnClickListener() {
-            DataUsers().login(User(binding.inputEmailText.text.toString(), binding.inputPasswordText.text.toString()))
-            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
     }

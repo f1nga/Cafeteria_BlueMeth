@@ -45,6 +45,7 @@ class ListDishAdapter(
 
             iconMes.setOnClickListener()  {
                 cantidadView.text = BillFragmentController().add(cantidadView).toString()
+
             }
 
             iconMenys.setOnClickListener()  {
@@ -71,8 +72,7 @@ class ListDishAdapter(
         holder.textView.text = item.name
         holder.imgView.setBackgroundResource(item.image)
         holder.priceView.text = "${item.price}€"
-
-
+        item.cantidad = if(holder.cantidadView.text.toString() == "") 0 else holder.cantidadView.text.toString().toInt()
     }
 
 
