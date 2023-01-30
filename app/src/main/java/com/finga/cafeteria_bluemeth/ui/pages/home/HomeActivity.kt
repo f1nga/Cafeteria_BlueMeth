@@ -2,11 +2,14 @@ package com.finga.cafeteria_bluemeth.ui.pages.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.viewpager.widget.ViewPager
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.adapters.ViewPagerAdapter
 import com.finga.cafeteria_bluemeth.models.Dish
 import com.finga.cafeteria_bluemeth.ui.pages.home.tabs.*
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 
 
@@ -29,6 +32,7 @@ class HomeActivity : AppCompatActivity(), SendDish {
 
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
+
     }
 
     override fun sendDataToBillFragment(plat: Dish?) {
@@ -40,4 +44,6 @@ class HomeActivity : AppCompatActivity(), SendDish {
     }
 
     fun getItem(i: Int) = viewPager.currentItem + i
+
+
 }

@@ -1,43 +1,59 @@
 package com.finga.cafeteria_bluemeth.ui.pages.home.tabs
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.adapters.ListDishAdapter
 import com.finga.cafeteria_bluemeth.databinding.FragmentThirdDishBinding
 import com.finga.cafeteria_bluemeth.models.Dish
+import com.finga.cafeteria_bluemeth.ui.pages.faqs.FaqsActivity
 import com.finga.cafeteria_bluemeth.viewmodel.DishViewModel
 
 class ThirdDishFragment : Fragment() {
-    private val dishViewModel: DishViewModel by viewModels()
+    private lateinit var dishViewModel: DishViewModel
+    lateinit var listDishAdapter: ListDishAdapter
     private lateinit var sm : SendDish
-
+    lateinit var binding: FragmentThirdDishBinding
+    lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentThirdDishBinding>(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_third_dish, container, false
         )
         setHasOptionsMenu(true)
 
-        val myDataset = dishViewModel.thirdDishes()
+        dishViewModel = ViewModelProvider(this)[DishViewModel::class.java]
 
-        val recyclerView = binding.RecyclerView
+        setRecyclerView()
 
-        var listDishAdapter = ListDishAdapter(myDataset)
+        return binding.root
+    }
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = listDishAdapter
+    private fun setRecyclerView() {
+        dishViewModel.getDishesByCategory(requireContext(), 3).observe(viewLifecycleOwner) {
+            listDishAdapter = ListDishAdapter(it)
+            recyclerView = binding.RecyclerView
 
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView.setHasFixedSize(true)
+            recyclerView.adapter = listDishAdapter
+
+            sendDataToBillFragment()
+        }
+    }
+
+    private fun sendDataToBillFragment() {
         sm = activity as SendDish
 
         listDishAdapter.setOnItemClickListener(object: ListDishAdapter.onItemClickListener{
@@ -45,8 +61,6 @@ class ThirdDishFragment : Fragment() {
                 sm.sendDataToBillFragment(plat)
             }
         })
-
-        return binding.root
     }
 
     //inflate the menu
@@ -57,15 +71,14 @@ class ThirdDishFragment : Fragment() {
 
     //handle item clicks of menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //get item id to handle item clicks
-        val id = item!!.itemId
-        //handle item clicks
-        if (id == R.id.action_settings) {
-            //do your action here, im just showing toast
-            Toast.makeText(activity, "Settings", Toast.LENGTH_SHORT).show()
+            val id = item.itemId
+
+        if (id == R.id.action_faqs) {
+            val intent = Intent(requireContext(), FaqsActivity::class.java)
+            startActivity(intent)
         }
-        if (id == R.id.action_sort) {
-            //do your action here, im just showing toast
+
+        if (id == R.id.action_exit) {
             Toast.makeText(activity, "Sort", Toast.LENGTH_SHORT).show()
         }
 

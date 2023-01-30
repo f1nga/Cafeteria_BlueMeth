@@ -1,46 +1,47 @@
 package com.finga.cafeteria_bluemeth.ui.pages.home.tabs
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.adapters.ListDishAdapter
 import com.finga.cafeteria_bluemeth.databinding.FragmentBillBinding
 import com.finga.cafeteria_bluemeth.models.Dish
+import com.finga.cafeteria_bluemeth.ui.pages.faqs.FaqsActivity
+import com.finga.cafeteria_bluemeth.ui.pages.home.HomeActivity
 import com.finga.cafeteria_bluemeth.ui.pages.home.controllers.BillFragmentController
+import com.finga.cafeteria_bluemeth.ui.pages.login.LoginActivity
 import com.finga.cafeteria_bluemeth.viewmodel.BillViewModel
-import com.finga.cafeteria_bluemeth.viewmodel.DishViewModel
 
 class BillFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var listDishAdapter: ListDishAdapter
     var listPlats: ArrayList<Dish> = ArrayList()
     private lateinit var txtPreu: TextView
-    private val viewModel : BillViewModel by viewModels()
+    private lateinit var binding: FragmentBillBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentBillBinding>(
+         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_bill, container, false
         )
         setHasOptionsMenu(true)
 
-        recyclerView = binding.RecyclerView
-        txtPreu = binding.txtPreu
-
         updateRecycler(BillFragmentController().updatePrice(listPlats))
+        pay()
+
         return binding.root
     }
 
@@ -54,7 +55,9 @@ class BillFragment : Fragment() {
     }
 
     private fun updateRecycler(preuFinal: Int) {
-        txtPreu.text = "$preuFinal€"
+        binding.txtPreu.text = "$preuFinal€"
+
+        recyclerView = binding.RecyclerView
 
         val myDataset = listPlats
         listDishAdapter = ListDishAdapter(myDataset)
@@ -69,6 +72,23 @@ class BillFragment : Fragment() {
         })
     }
 
+    private fun pay() {
+        binding.btnPagar.setOnClickListener() {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("Has realitzat la compra")
+                .setCancelable(false)
+                .setPositiveButton("SEGUIR COMPRANDO") { dialog, _ ->
+                    val intent = Intent(requireContext(), HomeActivity::class.java)
+                    startActivity(intent)
+                    dialog.dismiss()
+                }
+
+
+            val alert = builder.create()
+            alert.show()
+        }
+    }
+
     //inflate the menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater!!.inflate(R.menu.menu_main, menu)
@@ -80,11 +100,11 @@ class BillFragment : Fragment() {
         //get item id to handle item clicks
         val id = item!!.itemId
         //handle item clicks
-        if (id == R.id.action_settings) {
-            //do your action here, im just showing toast
-            Toast.makeText(activity, "Settings", Toast.LENGTH_SHORT).show()
+        if (id == R.id.action_faqs) {
+            val intent = Intent(requireContext(), FaqsActivity::class.java)
+            startActivity(intent)
         }
-        if (id == R.id.action_sort) {
+        if (id == R.id.action_exit) {
             //do your action here, im just showing toast
             Toast.makeText(activity, "Sort", Toast.LENGTH_SHORT).show()
         }

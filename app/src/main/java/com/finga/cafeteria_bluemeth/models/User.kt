@@ -1,11 +1,16 @@
 package com.finga.cafeteria_bluemeth.models
 
-class User (email: String, password: String) {
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-    var plats: ArrayList<Dish> = ArrayList()
-
-    fun addPlat(plat: Dish) {
-        plats.add(plat)
-    }
-
-}
+@Entity(tableName = "users")
+data class User(
+    @PrimaryKey
+    @ColumnInfo(name = "nickname")
+    val nickname: String,
+    @ColumnInfo(name = "email")
+    val email: String,
+    @ColumnInfo(name = "password")
+    val password: String,
+)

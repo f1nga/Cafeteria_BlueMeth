@@ -36,10 +36,10 @@ class BillFragmentController {
 
     fun searchImage(imgName: String): Int {
         when(imgName) {
-            "Mocorro" -> return R.drawable.macarrones
-            "Losogno" -> return R.drawable.lasagna
-            "Conolo" -> return R.drawable.canelones
-            "Monostro" -> return R.drawable.menestra
+            "Macarrons" -> return R.drawable.macarrones
+            "Lasagna" -> return R.drawable.lasagna
+            "Canelons" -> return R.drawable.canelones
+            "Menestre" -> return R.drawable.menestra
             "Entrecot" -> return R.drawable.entrecot
             "Chuletas" -> return R.drawable.chuletas
             "Pollo ast" -> return R.drawable.pollo

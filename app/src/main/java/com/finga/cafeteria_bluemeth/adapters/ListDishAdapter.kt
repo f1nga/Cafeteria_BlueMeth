@@ -1,22 +1,19 @@
 package com.finga.cafeteria_bluemeth.adapters
 
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.res.TypedArrayUtils.getText
 import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.models.Dish
 import com.finga.cafeteria_bluemeth.ui.pages.home.controllers.BillFragmentController
-import com.finga.cafeteria_bluemeth.ui.pages.home.tabs.SendDish
+
 
 class ListDishAdapter(
-    private val dataset: ArrayList<Dish>? = null
+    private val dataset: List<Dish>? = null
 ) : RecyclerView.Adapter<ListDishAdapter.ItemViewHolder>() {
 
     private lateinit var mListener : onItemClickListener
@@ -40,7 +37,7 @@ class ListDishAdapter(
         init {
             itemView.setOnClickListener {
                 val preuFinal = priceView.text.split("€")[0].toInt()
-                listener.onItemClick(Dish(textView.text.toString(), preuFinal, BillFragmentController().searchImage(textView.text.toString()), 1))
+                listener.onItemClick(Dish(textView.text.toString(), preuFinal, categoria = 4))
             }
 
             iconMes.setOnClickListener()  {
@@ -70,11 +67,10 @@ class ListDishAdapter(
         }
         else holder.cantidadView.text = item.cantidad.toString()
         holder.textView.text = item.name
-        holder.imgView.setBackgroundResource(item.image)
+        holder.imgView.setBackgroundResource(BillFragmentController().searchImage(item.name))
         holder.priceView.text = "${item.price}€"
         item.cantidad = if(holder.cantidadView.text.toString() == "") 0 else holder.cantidadView.text.toString().toInt()
     }
-
 
     override fun getItemCount(): Int {
         if(dataset?.size == null){
@@ -82,8 +78,4 @@ class ListDishAdapter(
         }
         return dataset!!.size
     }
-
-
-
 }
-
