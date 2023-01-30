@@ -17,8 +17,8 @@ class UserViewModel: ViewModel() {
         AuthenticationRepository.insertUser(context, user)
     }
 
-    fun login(context: Context, email: String) :LiveData<User> {
-        return AuthenticationRepository.login2(context, email)
+    fun login(context: Context, email: String, password: String) :LiveData<User> {
+        return AuthenticationRepository.login(context, email, password)
     }
 
     fun setCurrentUser(currentUser: User) {

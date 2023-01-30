@@ -2,6 +2,7 @@ package com.finga.cafeteria_bluemeth.ui.pages.home.tabs
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -15,26 +16,26 @@ import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.adapters.ListDishAdapter
 import com.finga.cafeteria_bluemeth.databinding.FragmentFirstDishBinding
 import com.finga.cafeteria_bluemeth.models.Dish
+import com.finga.cafeteria_bluemeth.models.User
 import com.finga.cafeteria_bluemeth.ui.pages.faqs.FaqsActivity
 import com.finga.cafeteria_bluemeth.ui.pages.home.HomeActivity
 import com.finga.cafeteria_bluemeth.ui.pages.login.LoginActivity
 import com.finga.cafeteria_bluemeth.viewmodel.DishViewModel
 import com.finga.cafeteria_bluemeth.viewmodel.UserViewModel
 
-class FirstDishFragment : Fragment() {
+class FirstDishFragment(private val userEmail: String?, private val userPassword: String?) : Fragment() {
     private lateinit var dishViewModel: DishViewModel
     private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var sm : SendDish
     lateinit var recyclerView: RecyclerView
     lateinit var listDishAdapter: ListDishAdapter
     lateinit var binding: FragmentFirstDishBinding
-    var email: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_first_dish, container, false
@@ -44,6 +45,7 @@ class FirstDishFragment : Fragment() {
         dishViewModel = ViewModelProvider(this)[DishViewModel::class.java]
         setRecyclerView()
 
+        userViewModel.setCurrentUser(User(email = userEmail!!, password = userPassword!!))
         return binding.root
     }
 
@@ -66,7 +68,6 @@ class FirstDishFragment : Fragment() {
         listDishAdapter.setOnItemClickListener(object: ListDishAdapter.onItemClickListener{
             override fun onItemClick(plat: Dish) {
                 sm.sendDataToBillFragment(plat)
-                Toast.makeText(requireContext(), email, Toast.LENGTH_SHORT).show()
             }
         })
     }

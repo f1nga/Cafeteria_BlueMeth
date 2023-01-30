@@ -22,7 +22,11 @@ class HomeActivity : AppCompatActivity(), SendDish {
 
         val adapter = ViewPagerAdapter(supportFragmentManager)
 
-        adapter.addFragment(FirstDishFragment(), "1r PLATO")
+        val userEmail = intent.extras?.getString("user_email")
+        val userPassword = intent.extras?.getString("user_password")
+
+
+        adapter.addFragment(FirstDishFragment(userEmail, userPassword), "1r PLATO")
         adapter.addFragment(SecondDishFragment(), "2ndo PLATO")
         adapter.addFragment(ThirdDishFragment(), "POSTRE")
         adapter.addFragment(BillFragment(), "PAGAR")

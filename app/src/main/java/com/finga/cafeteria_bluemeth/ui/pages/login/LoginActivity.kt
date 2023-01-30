@@ -16,7 +16,6 @@ import com.finga.cafeteria_bluemeth.viewmodel.UserViewModel
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userViewModel: UserViewModel
-    lateinit var userEmail: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +27,10 @@ class LoginActivity : AppCompatActivity() {
         var btnLogin = binding.btnLogin
 
         btnLogin.setOnClickListener() {
-             userEmail = binding.inputEmailText.text.toString()
+            var userEmail = binding.inputEmailText.text.toString()
+            var userPassword = binding.inputPasswordText.text.toString()
 
-            userViewModel.login(this, userEmail).observe(this) {
+            userViewModel.login(this, userEmail, userPassword).observe(this) {
                 if(it == null) {
                     val builder = AlertDialog.Builder(this)
                     builder.setMessage("No existe este usuario")
@@ -45,14 +45,16 @@ class LoginActivity : AppCompatActivity() {
                     alert.show()
                 } else {
                     Log.i("USER", it.email)
+                    val intent = Intent(this, HomeActivity::class.java)
+                    intent.putExtra("user_email", it.email )
+                    intent.putExtra("user_password", it.password )
+                    startActivity(intent)
 
-                    //userViewModel.setCurrentUser(it)
                 }
             }
 
 
-            val intent = Intent(this, HomeActivity::class.java)
-             startActivity(intent)
+
         }
 
         var txtFinal = binding.txtFinal
