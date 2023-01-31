@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -12,18 +13,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
-import com.finga.cafeteria_bluemeth.adapters.ListDishAdapter
+import com.finga.cafeteria_bluemeth.ui.adapters.ListDishAdapter
 import com.finga.cafeteria_bluemeth.databinding.FragmentSecondFishBinding
-import com.finga.cafeteria_bluemeth.models.Dish
+import com.finga.cafeteria_bluemeth.data.models.Dish
 import com.finga.cafeteria_bluemeth.ui.pages.faqs.FaqsActivity
-import com.finga.cafeteria_bluemeth.viewmodel.DishViewModel
-import com.finga.cafeteria_bluemeth.viewmodel.UserViewModel
+import com.finga.cafeteria_bluemeth.ui.pages.login.LoginActivity
+import com.finga.cafeteria_bluemeth.ui.viewmodels.BillViewModel
+import com.finga.cafeteria_bluemeth.ui.viewmodels.DishViewModel
+import com.finga.cafeteria_bluemeth.ui.viewmodels.UserViewModel
 
 class SecondDishFragment() : Fragment() {
+    private val dishViewModel: DishViewModel by activityViewModels()
+    private val billViewModel: BillViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
-    lateinit var dishViewModel: DishViewModel
     lateinit var listDishAdapter: ListDishAdapter
-    private lateinit var sm : SendDish
     lateinit var binding: FragmentSecondFishBinding
     lateinit var recyclerView: RecyclerView
 
@@ -36,8 +39,6 @@ class SecondDishFragment() : Fragment() {
             R.layout.fragment_second_fish, container, false
         )
         setHasOptionsMenu(true)
-
-        dishViewModel = ViewModelProvider(this)[DishViewModel::class.java]
 
         setRecyclerView()
 
@@ -53,18 +54,34 @@ class SecondDishFragment() : Fragment() {
             recyclerView.setHasFixedSize(true)
             recyclerView.adapter = listDishAdapter
 
-            sendDataToBillFragment()
+            clickToDish()
         }
     }
 
-    private fun sendDataToBillFragment() {
-        sm = activity as SendDish
-
+    private fun clickToDish() {
         listDishAdapter.setOnItemClickListener(object: ListDishAdapter.onItemClickListener{
             override fun onItemClick(plat: Dish) {
-                sm.sendDataToBillFragment(plat)
+                if(userViewModel.userIsLogged()) {
+                    billViewModel.addDishToBill(plat)
+                    Log.i("Second Dish", billViewModel.getPlatsFromBill().toString())
+                } else {
+                    notLoginAlert()
+                }
             }
         })
+    }
+
+    private fun notLoginAlert() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Para realizar estas acciones debe iniciar sesión")
+            .setCancelable(false)
+            .setPositiveButton("INICIAR SESION") { dialog, _ ->
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
     }
 
     //inflate the menu
@@ -81,7 +98,7 @@ class SecondDishFragment() : Fragment() {
             val intent = Intent(requireContext(), FaqsActivity::class.java)
             startActivity(intent)
         }
-        if (id == R.id.action_exit){
+        if (id == R.id.action_my_profile){
             //do your action here, im just showing toast
             Toast.makeText(activity, "Sort", Toast.LENGTH_SHORT).show()
         }

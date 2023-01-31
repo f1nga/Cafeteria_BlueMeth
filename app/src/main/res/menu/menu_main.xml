@@ -4,8 +4,8 @@
         android:id="@+id/action_faqs"
         android:title="FAQS"/>
 
-    <item android:id="@+id/action_exit"
-        android:title="Exit"
+    <item android:id="@+id/action_my_profile"
+        android:title="My Profile"
         android:icon="@drawable/ic_action_name"
       />
 </menu>

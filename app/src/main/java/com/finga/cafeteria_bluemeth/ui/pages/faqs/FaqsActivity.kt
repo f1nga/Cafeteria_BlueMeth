@@ -6,11 +6,9 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
-import com.finga.cafeteria_bluemeth.adapters.ListDishAdapter
-import com.finga.cafeteria_bluemeth.adapters.ListFaqsAdapter
-import com.finga.cafeteria_bluemeth.data.FaqsProvider
-import com.finga.cafeteria_bluemeth.models.Dish
-import com.finga.cafeteria_bluemeth.models.Faq
+import com.finga.cafeteria_bluemeth.ui.adapters.ListFaqsAdapter
+import com.finga.cafeteria_bluemeth.data.providers.FaqsProvider
+import com.finga.cafeteria_bluemeth.data.models.Dish
 
 class FaqsActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")

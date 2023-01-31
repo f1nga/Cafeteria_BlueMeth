@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,20 +13,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
-import com.finga.cafeteria_bluemeth.adapters.ListDishAdapter
+import com.finga.cafeteria_bluemeth.ui.adapters.ListDishAdapter
 import com.finga.cafeteria_bluemeth.databinding.FragmentFirstDishBinding
-import com.finga.cafeteria_bluemeth.models.Dish
-import com.finga.cafeteria_bluemeth.models.User
+import com.finga.cafeteria_bluemeth.data.models.Dish
+import com.finga.cafeteria_bluemeth.data.models.User
 import com.finga.cafeteria_bluemeth.ui.pages.faqs.FaqsActivity
 import com.finga.cafeteria_bluemeth.ui.pages.home.HomeActivity
 import com.finga.cafeteria_bluemeth.ui.pages.login.LoginActivity
-import com.finga.cafeteria_bluemeth.viewmodel.DishViewModel
-import com.finga.cafeteria_bluemeth.viewmodel.UserViewModel
+import com.finga.cafeteria_bluemeth.ui.pages.my_profile.MyProfileActivity
+import com.finga.cafeteria_bluemeth.ui.viewmodels.BillViewModel
+import com.finga.cafeteria_bluemeth.ui.viewmodels.DishViewModel
+import com.finga.cafeteria_bluemeth.ui.viewmodels.UserViewModel
 
-class FirstDishFragment(private val userEmail: String?, private val userPassword: String?) : Fragment() {
-    private lateinit var dishViewModel: DishViewModel
+class FirstDishFragment(private val userEmail: String, private val userPassword: String, private val userNickname: String) : Fragment() {
+    private val dishViewModel: DishViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
-    private lateinit var sm : SendDish
+    private val billViewModel: BillViewModel by activityViewModels()
     lateinit var recyclerView: RecyclerView
     lateinit var listDishAdapter: ListDishAdapter
     lateinit var binding: FragmentFirstDishBinding
@@ -42,10 +44,9 @@ class FirstDishFragment(private val userEmail: String?, private val userPassword
         )
         setHasOptionsMenu(true)
 
-        dishViewModel = ViewModelProvider(this)[DishViewModel::class.java]
         setRecyclerView()
+        setUser()
 
-        userViewModel.setCurrentUser(User(email = userEmail!!, password = userPassword!!))
         return binding.root
     }
 
@@ -58,18 +59,40 @@ class FirstDishFragment(private val userEmail: String?, private val userPassword
             recyclerView.setHasFixedSize(true)
             recyclerView.adapter = listDishAdapter
 
-            sendDataToBillFragment()
+            clickToDish()
         })
     }
 
-    private fun sendDataToBillFragment() {
-        sm = activity as SendDish
-
+    private fun clickToDish() {
         listDishAdapter.setOnItemClickListener(object: ListDishAdapter.onItemClickListener{
             override fun onItemClick(plat: Dish) {
-                sm.sendDataToBillFragment(plat)
+                if(userViewModel.userIsLogged()) {
+                    billViewModel.addDishToBill(plat)
+                    Log.i("First Dish", billViewModel.getPlatsFromBill().toString())
+                } else {
+                    notLoginAlert()
+                }
             }
         })
+    }
+
+    private fun notLoginAlert() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Para realizar estas acciones debe iniciar sesión")
+            .setCancelable(false)
+            .setPositiveButton("INICIAR SESION") { dialog, _ ->
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
+    }
+
+    private fun setUser() {
+        if(userEmail != "") {
+            userViewModel.setCurrentUser(User(userNickname, userEmail, userPassword))
+        }
     }
 
     //inflate the menu
@@ -84,11 +107,14 @@ class FirstDishFragment(private val userEmail: String?, private val userPassword
         //handle item clicks
         if (id == R.id.action_faqs){
             val intent = Intent(requireContext(), FaqsActivity::class.java)
+            intent.putExtra("user_email", userEmail)
             startActivity(intent)
         }
-        if (id == R.id.action_exit){
-            //do your action here, im just showing toast
-            Toast.makeText(activity, "Sort", Toast.LENGTH_SHORT).show()
+        if (id == R.id.action_my_profile){
+            val intent = Intent(requireContext(), MyProfileActivity::class.java)
+            intent.putExtra("user_nickname", userNickname)
+            intent.putExtra("user_email", userEmail)
+            startActivity(intent)
         }
 
         return super.onOptionsItemSelected(item)

@@ -6,12 +6,10 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.databinding.ActivityLoginBinding
 import com.finga.cafeteria_bluemeth.ui.pages.home.HomeActivity
-import com.finga.cafeteria_bluemeth.ui.pages.home.tabs.FirstDishFragment
 import com.finga.cafeteria_bluemeth.ui.register.RegisterActivity
-import com.finga.cafeteria_bluemeth.viewmodel.UserViewModel
+import com.finga.cafeteria_bluemeth.ui.viewmodels.UserViewModel
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -48,13 +46,11 @@ class LoginActivity : AppCompatActivity() {
                     val intent = Intent(this, HomeActivity::class.java)
                     intent.putExtra("user_email", it.email )
                     intent.putExtra("user_password", it.password )
+                    intent.putExtra("user_nickname", it.nickname )
                     startActivity(intent)
 
                 }
             }
-
-
-
         }
 
         var txtFinal = binding.txtFinal

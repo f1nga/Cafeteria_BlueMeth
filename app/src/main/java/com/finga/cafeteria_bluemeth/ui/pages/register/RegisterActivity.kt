@@ -5,17 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.finga.cafeteria_bluemeth.R
-import com.finga.cafeteria_bluemeth.database.RestaurantDatabase
 import com.finga.cafeteria_bluemeth.databinding.ActivityRegisterBinding
-import com.finga.cafeteria_bluemeth.models.Dish
-import com.finga.cafeteria_bluemeth.models.User
+import com.finga.cafeteria_bluemeth.data.models.User
 import com.finga.cafeteria_bluemeth.ui.pages.login.LoginActivity
-import com.finga.cafeteria_bluemeth.viewmodel.DishViewModel
-import com.finga.cafeteria_bluemeth.viewmodel.UserViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.finga.cafeteria_bluemeth.ui.viewmodels.UserViewModel
 
 
 class RegisterActivity : AppCompatActivity() {
