@@ -39,8 +39,9 @@ class ShowOrdersActivity : AppCompatActivity() {
     private fun observeOrders() {
         val userEmail = intent.extras?.getString("user_email")!!
 
-        val listOrders: List<Order> = orderViewModel.getOrdersByUser2(this, userEmail)
-        Log.i("HOOOOL", listOrders.toString())
+        val listOrders: List<Order> = orderViewModel.getOrdersByUser(this, userEmail)
         adapter.submitList(listOrders)
+
+        binding.txtPreuTotal.text = "Total gastado: ${orderViewModel.calcTotalPrice(listOrders).toString()}€"
     }
 }

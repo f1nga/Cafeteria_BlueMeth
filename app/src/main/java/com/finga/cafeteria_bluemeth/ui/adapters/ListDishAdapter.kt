@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.data.models.Dish
+import com.finga.cafeteria_bluemeth.utils.Methods
 
 
 class ListDishAdapter(
@@ -57,7 +58,7 @@ class ListDishAdapter(
         holder.iconMenys.visibility = View.INVISIBLE
 
         holder.textView.text = item.name
-        holder.imgView.setBackgroundResource(searchImage(item.name))
+        holder.imgView.setBackgroundResource(Methods.searchDishImage(item.name))
         holder.priceView.text = "${item.price}€"
         item.cantidad = if(holder.cantidadView.text.toString() == "") 0 else holder.cantidadView.text.toString().toInt()
     }
@@ -67,23 +68,5 @@ class ListDishAdapter(
             return 0
         }
         return dataset!!.size
-    }
-
-    private fun searchImage(imgName: String): Int {
-        when(imgName) {
-            "Macarrons" -> return R.drawable.macarrones
-            "Lasagna" -> return R.drawable.lasagna
-            "Canelons" -> return R.drawable.canelones
-            "Menestre" -> return R.drawable.menestra
-            "Entrecot" -> return R.drawable.entrecot
-            "Chuletas" -> return R.drawable.chuletas
-            "Pollo ast" -> return R.drawable.pollo
-            "Pulpito" -> return R.drawable.pulpo
-            "Natillas" -> return R.drawable.natillas
-            "Sorbette" -> return R.drawable.sorbette
-            "Calippo" -> return R.drawable.calippo
-            "Limonada" -> return R.drawable.limonada
-        }
-        return -1
     }
 }

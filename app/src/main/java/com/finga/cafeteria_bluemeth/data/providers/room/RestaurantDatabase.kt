@@ -15,7 +15,7 @@ import com.finga.cafeteria_bluemeth.data.models.User
 
 abstract class RestaurantDatabase : RoomDatabase() {
 
-    abstract fun restaurantDAO(): RestaurantDAO
+    abstract fun restaurantDAO(): DishesDAO
     abstract fun usersDAO(): UsersDAO
     abstract fun orderDAO(): OrderDAO
 

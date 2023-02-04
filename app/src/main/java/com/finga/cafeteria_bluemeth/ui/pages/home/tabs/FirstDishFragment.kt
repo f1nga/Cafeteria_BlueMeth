@@ -24,6 +24,7 @@ import com.finga.cafeteria_bluemeth.ui.pages.my_profile.MyProfileActivity
 import com.finga.cafeteria_bluemeth.ui.viewmodels.BillViewModel
 import com.finga.cafeteria_bluemeth.ui.viewmodels.DishViewModel
 import com.finga.cafeteria_bluemeth.ui.viewmodels.UserViewModel
+import com.finga.cafeteria_bluemeth.utils.Methods
 
 class FirstDishFragment(private val userEmail: String, private val userPassword: String, private val userNickname: String) : Fragment() {
     private val dishViewModel: DishViewModel by activityViewModels()
@@ -100,21 +101,23 @@ class FirstDishFragment(private val userEmail: String, private val userPassword:
         inflater.inflate(R.menu.menu_main, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
-    //handle item clicks of menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //get item id to handle item clicks
         val id = item.itemId
-        //handle item clicks
+
         if (id == R.id.action_faqs){
             val intent = Intent(requireContext(), FaqsActivity::class.java)
             intent.putExtra("user_email", userEmail)
             startActivity(intent)
         }
         if (id == R.id.action_my_profile){
-            val intent = Intent(requireContext(), MyProfileActivity::class.java)
-            intent.putExtra("user_nickname", userNickname)
-            intent.putExtra("user_email", userEmail)
-            startActivity(intent)
+            if(userViewModel.userIsLogged() ) {
+                val intent = Intent(requireContext(), MyProfileActivity::class.java)
+                intent.putExtra("user_nickname", userViewModel.getCurrentUser()?.nickname)
+                intent.putExtra("user_email", userViewModel.getCurrentUser()?.email)
+                startActivity(intent)
+            } else {
+                notLoginAlert()
+            }
         }
 
         return super.onOptionsItemSelected(item)

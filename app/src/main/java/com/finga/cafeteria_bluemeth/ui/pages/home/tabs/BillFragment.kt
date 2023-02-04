@@ -19,6 +19,8 @@ import com.finga.cafeteria_bluemeth.data.models.Order
 import com.finga.cafeteria_bluemeth.ui.adapters.DishAdapter
 import com.finga.cafeteria_bluemeth.ui.pages.faqs.FaqsActivity
 import com.finga.cafeteria_bluemeth.ui.pages.home.HomeActivity
+import com.finga.cafeteria_bluemeth.ui.pages.login.LoginActivity
+import com.finga.cafeteria_bluemeth.ui.pages.my_profile.MyProfileActivity
 import com.finga.cafeteria_bluemeth.ui.viewmodels.BillViewModel
 import com.finga.cafeteria_bluemeth.ui.viewmodels.OrderViewModel
 import com.finga.cafeteria_bluemeth.ui.viewmodels.UserViewModel
@@ -56,13 +58,17 @@ class BillFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun pay() {
        binding.btnPagar.setOnClickListener() {
-           val maxId = orderViewModel.getMaxId(requireContext())
-           val currentDate = LocalDate.now()
-           val order = Order(billViewModel.listPlats[0].name, billViewModel.listPlats[1].name, billViewModel.listPlats[2].name, currentDate.toString(), userViewModel.getCurrentUser()!!.email,  maxId + 1)
+           if(userViewModel.userIsLogged()) {
+               val maxId = orderViewModel.getMaxId(requireContext())
+               val currentDate = LocalDate.now()
+               val order = Order(billViewModel.listPlats[0].name, billViewModel.listPlats[1].name, billViewModel.listPlats[2].name, currentDate.toString(), userViewModel.getCurrentUser()!!.email,  maxId + 1)
 
-           orderViewModel.addOrder(requireContext(), order)
+               orderViewModel.addOrder(requireContext(), order)
 
-           payAlert()
+               payAlert()
+           } else {
+               notLoginAlert()
+           }
        }
     }
 
@@ -97,25 +103,40 @@ class BillFragment : Fragment() {
         binding.txtPreu.text = "${billViewModel.getPreu()}€"
     }
 
+    private fun notLoginAlert() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Para realizar estas acciones debe iniciar sesión")
+            .setCancelable(false)
+            .setPositiveButton("INICIAR SESION") { dialog, _ ->
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
+    }
 
-    //inflate the menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater!!.inflate(R.menu.menu_main, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    //handle item clicks of menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //get item id to handle item clicks
-        val id = item!!.itemId
-        //handle item clicks
+        val id = item.itemId
+
         if (id == R.id.action_faqs) {
             val intent = Intent(requireContext(), FaqsActivity::class.java)
             startActivity(intent)
         }
-        if (id == R.id.action_my_profile) {
-            //do your action here, im just showing toast
-            Toast.makeText(activity, "Sort", Toast.LENGTH_SHORT).show()
+        if (id == R.id.action_my_profile){
+            if(userViewModel.userIsLogged() ) {
+                val intent = Intent(requireContext(), MyProfileActivity::class.java)
+                intent.putExtra("user_nickname", userViewModel.getCurrentUser()?.nickname)
+                intent.putExtra("user_email", userViewModel.getCurrentUser()?.email)
+                startActivity(intent)
+            } else {
+                notLoginAlert()
+            }
         }
 
         return super.onOptionsItemSelected(item)

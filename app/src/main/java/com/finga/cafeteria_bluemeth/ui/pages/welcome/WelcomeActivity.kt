@@ -10,6 +10,9 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.databinding.ActivityWelcomeBinding
 import com.finga.cafeteria_bluemeth.ui.pages.faqs.FaqsActivity
@@ -21,29 +24,24 @@ import java.time.LocalDateTime
 
 class WelcomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnToPlats.setOnClickListener() {
-            val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra("user_email", "" )
-            intent.putExtra("user_password", "" )
-            intent.putExtra("user_nickname", "" )
-            startActivity(intent)
-        }
+        drawerLayout = binding.drawerLayout
+        val navController = this.findNavController(R.id.myNavHostFragment)
 
-        binding.btnToLogin.setOnClickListener() {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
 
-        binding.txtFinal.setOnClickListener() {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
+        NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
+        NavigationUI.setupWithNavController(binding.navView, navController)
 
     }
+
+   override fun onSupportNavigateUp(): Boolean {
+       val navController = this.findNavController(R.id.myNavHostFragment)
+       return NavigationUI.navigateUp(navController, drawerLayout)
+   }
 }

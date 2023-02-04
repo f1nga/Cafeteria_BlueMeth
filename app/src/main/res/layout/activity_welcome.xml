@@ -1,65 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.pages.welcome.WelcomeActivity">
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".ui.pages.welcome.WelcomeActivity">-->
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="165dp"
-        android:layout_height="168dp"
-        android:layout_marginTop="84dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bm" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView"-->
+<!--        android:layout_width="165dp"-->
+<!--        android:layout_height="168dp"-->
+<!--        android:layout_marginTop="84dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/bm" />-->
 
-    <TextView
-        android:id="@+id/txtWelcome"
-        android:layout_width="338dp"
-        android:layout_height="85dp"
-        android:layout_marginTop="40dp"
-        android:text="BlueMeth es tu restaurante de confianza. Encontrarás productos de primera calidad y para todos los gustos!"
-        android:textSize="19sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+<!--    <TextView-->
+<!--        android:id="@+id/txtWelcome"-->
+<!--        android:layout_width="338dp"-->
+<!--        android:layout_height="85dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:text="BlueMeth es tu restaurante de confianza. Encontrarás productos de primera calidad y para todos los gustos!"-->
+<!--        android:textSize="19sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/imageView" />-->
 
-    <Button
-        android:id="@+id/btnToPlats"
-        android:layout_width="260dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="32dp"
-        android:text="Empieza a explorar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtWelcome" />
+<!--    <Button-->
+<!--        android:id="@+id/btnToPlats"-->
+<!--        android:layout_width="260dp"-->
+<!--        android:layout_height="54dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:text="Empieza a explorar"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.502"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/txtWelcome" />-->
 
-    <Button
-        android:id="@+id/btnToLogin"
-        android:layout_width="260dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="@color/black"
-        android:text="Inicia Sesión"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnToPlats" />
+<!--    <Button-->
+<!--        android:id="@+id/btnToLogin"-->
+<!--        android:layout_width="260dp"-->
+<!--        android:layout_height="54dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:backgroundTint="@color/black"-->
+<!--        android:text="Inicia Sesión"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.502"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btnToPlats" />-->
 
-    <TextView
-        android:id="@+id/txtFinal"
+<!--    <TextView-->
+<!--        android:id="@+id/txtFinal"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="44dp"-->
+<!--        android:gravity="center"-->
+<!--        android:textSize="17sp"-->
+<!--        android:text="@string/login_to_register_text"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btnToLogin" />-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:gravity="center"
-        android:textSize="17sp"
-        android:text="@string/login_to_register_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnToLogin" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <fragment
+                android:id="@+id/myNavHostFragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:navGraph="@navigation/navigation"
+                app:defaultNavHost="true"
+                />
+        </LinearLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/navdrawer_menu"
+            app:headerLayout="@layout/nav_header">
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</layout>
+

@@ -18,6 +18,7 @@ import com.finga.cafeteria_bluemeth.databinding.FragmentSecondFishBinding
 import com.finga.cafeteria_bluemeth.data.models.Dish
 import com.finga.cafeteria_bluemeth.ui.pages.faqs.FaqsActivity
 import com.finga.cafeteria_bluemeth.ui.pages.login.LoginActivity
+import com.finga.cafeteria_bluemeth.ui.pages.my_profile.MyProfileActivity
 import com.finga.cafeteria_bluemeth.ui.viewmodels.BillViewModel
 import com.finga.cafeteria_bluemeth.ui.viewmodels.DishViewModel
 import com.finga.cafeteria_bluemeth.ui.viewmodels.UserViewModel
@@ -99,10 +100,15 @@ class SecondDishFragment() : Fragment() {
             startActivity(intent)
         }
         if (id == R.id.action_my_profile){
-            //do your action here, im just showing toast
-            Toast.makeText(activity, "Sort", Toast.LENGTH_SHORT).show()
+            if(userViewModel.userIsLogged() ) {
+                val intent = Intent(requireContext(), MyProfileActivity::class.java)
+                intent.putExtra("user_nickname", userViewModel.getCurrentUser()?.nickname)
+                intent.putExtra("user_email", userViewModel.getCurrentUser()?.email)
+                startActivity(intent)
+            } else {
+                notLoginAlert()
+            }
         }
-
         return super.onOptionsItemSelected(item)
     }
 }

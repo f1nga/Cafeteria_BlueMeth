@@ -7,6 +7,7 @@ import com.finga.cafeteria_bluemeth.data.models.Dish
 import com.finga.cafeteria_bluemeth.data.models.Order
 import com.finga.cafeteria_bluemeth.data.repositories.DishesRepository
 import com.finga.cafeteria_bluemeth.data.repositories.OrderRepository
+import com.finga.cafeteria_bluemeth.utils.Methods
 
 class OrderViewModel: ViewModel() {
     fun addOrder(context: Context, order: Order) {
@@ -21,11 +22,19 @@ class OrderViewModel: ViewModel() {
         return OrderRepository.getMaxId(context)
     }
 
-    fun getOrdersByUser(context: Context, userEmail: String): LiveData<List<Order>> {
+    fun getOrdersByUser(context: Context, userEmail: String): List<Order> {
         return OrderRepository.getOrdersByUser(context, userEmail)
     }
 
-    fun getOrdersByUser2(context: Context, userEmail: String): List<Order> {
-        return OrderRepository.getOrdersByUser2(context, userEmail)
+    fun calcTotalPrice(orderList: List<Order>): Int {
+        var totalPrice = 0
+
+        for (order in orderList) {
+            totalPrice += Methods.searchDishPrice(order.firstDish)
+            totalPrice += Methods.searchDishPrice(order.secondDish)
+            totalPrice += Methods.searchDishPrice(order.thirdDish)
+        }
+
+        return totalPrice
     }
 }

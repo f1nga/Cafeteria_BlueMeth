@@ -37,16 +37,10 @@ class OrderRepository {
             return orderDatabase!!.orderDAO().getMaxId()
         }
 
-        fun getOrdersByUser(context: Context, userEmail: String) : LiveData<List<Order>> {
+        fun getOrdersByUser(context: Context, userEmail: String) : List<Order> {
             orderDatabase = initializeDB(context)
 
             return orderDatabase!!.orderDAO().getOrdersByUser(userEmail)
-        }
-
-        fun getOrdersByUser2(context: Context, userEmail: String) : List<Order> {
-            orderDatabase = initializeDB(context)
-
-            return orderDatabase!!.orderDAO().getOrdersByUser2(userEmail)
         }
     }
 }

@@ -14,10 +14,7 @@ interface OrderDAO {
     fun deleteOrder(id: Int)
 
     @Query("SELECT * FROM orders WHERE email_usuario =:userEmail")
-    fun getOrdersByUser(userEmail: String): LiveData<List<Order>>
-
-    @Query("SELECT * FROM orders WHERE email_usuario =:userEmail")
-    fun getOrdersByUser2(userEmail: String): List<Order>
+    fun getOrdersByUser(userEmail: String): List<Order>
 
     @Query("SELECT MAX(id) FROM orders")
     fun getMaxId(): Int

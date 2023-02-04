@@ -10,19 +10,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.data.models.Dish
-import com.finga.cafeteria_bluemeth.ui.adapters.utils.RecyclerClickListener
 import com.finga.cafeteria_bluemeth.utils.Methods
 
 
 class DishAdapter : ListAdapter<Dish, DishAdapter.DishHolder>(DiffCallback()) {
 
     class DishHolder(view: View) : RecyclerView.ViewHolder(view)
-
-    private lateinit var listener: RecyclerClickListener
-
-    fun setItemListener(listener: RecyclerClickListener) {
-        this.listener = listener
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishHolder {
         val v =
