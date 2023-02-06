@@ -30,5 +30,4 @@ class AuthenticationRepository {
             return userDatabase!!.usersDAO().getUser(email, password)
         }
     }
-
 }

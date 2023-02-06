@@ -1,8 +1,6 @@
 package com.finga.cafeteria_bluemeth.data.providers.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.finga.cafeteria_bluemeth.data.models.Dish
 import com.finga.cafeteria_bluemeth.data.models.Order
 
 @Dao
@@ -18,5 +16,4 @@ interface OrderDAO {
 
     @Query("SELECT MAX(id) FROM orders")
     fun getMaxId(): Int
-
 }

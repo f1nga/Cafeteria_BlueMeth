@@ -9,9 +9,6 @@ interface DishesDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addDish(dish: Dish)
 
-    @Query("SELECT * FROM dishes")
-    fun getDishes(): LiveData<List<Dish>>
-
     @Query("SELECT * FROM dishes WHERE category = :category")
     fun getDishesByCategory(category: Int): LiveData<List<Dish>>
 
@@ -20,8 +17,4 @@ interface DishesDAO {
 
     @Delete
     fun deleteDish(dish: Dish)
-
-    @Query("DELETE FROM dishes")
-    fun deleteAllDishes()
-
 }
