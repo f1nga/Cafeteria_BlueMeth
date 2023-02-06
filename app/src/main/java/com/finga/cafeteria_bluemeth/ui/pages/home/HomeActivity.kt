@@ -2,19 +2,14 @@ package com.finga.cafeteria_bluemeth.ui.pages.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.viewpager.widget.ViewPager
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.ui.adapters.ViewPagerAdapter
-import com.finga.cafeteria_bluemeth.data.models.Dish
 import com.finga.cafeteria_bluemeth.ui.pages.home.tabs.*
-import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 
-
 class HomeActivity : AppCompatActivity() {
-    lateinit var viewPager: ViewPager
+    private lateinit var viewPager: ViewPager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +33,4 @@ class HomeActivity : AppCompatActivity() {
         tabs.setupWithViewPager(viewPager)
 
     }
-
-    fun getItem(i: Int) = viewPager.currentItem + i
 }

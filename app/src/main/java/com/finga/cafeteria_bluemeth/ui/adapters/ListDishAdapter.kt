@@ -1,6 +1,5 @@
 package com.finga.cafeteria_bluemeth.ui.adapters
 
-
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -27,14 +26,10 @@ class ListDishAdapter(
         mListener = listener
     }
 
-    @SuppressLint("SetTextI18n")
-    class ItemViewHolder(private val view: View, listener: onItemClickListener) : RecyclerView.ViewHolder(view) {
+    class ItemViewHolder(view: View, listener: onItemClickListener) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.idNombre)
         var imgView: ImageView = view.findViewById(R.id.idImagen)
         var priceView: TextView = view.findViewById(R.id.idPrecio)
-        var cantidadView: TextView = view.findViewById(R.id.idQuantitat)
-        var iconMes: ImageView = view.findViewById(R.id.idIconMes)
-        var iconMenys: ImageView = view.findViewById(R.id.idIconMenys)
 
         init {
             itemView.setOnClickListener {
@@ -50,23 +45,19 @@ class ListDishAdapter(
         return ItemViewHolder(adapterLayout, mListener)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset?.get(position) ?: return
-
-        holder.cantidadView.text = ""
-        holder.iconMes.visibility = View.INVISIBLE
-        holder.iconMenys.visibility = View.INVISIBLE
 
         holder.textView.text = item.name
         holder.imgView.setBackgroundResource(Methods.searchDishImage(item.name))
         holder.priceView.text = "${item.price}€"
-        item.cantidad = if(holder.cantidadView.text.toString() == "") 0 else holder.cantidadView.text.toString().toInt()
     }
 
     override fun getItemCount(): Int {
         if(dataset?.size == null){
             return 0
         }
-        return dataset!!.size
+        return dataset.size
     }
 }

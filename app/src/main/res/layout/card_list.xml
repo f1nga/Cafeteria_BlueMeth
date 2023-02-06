@@ -53,32 +53,6 @@
                     android:text="Descripcion " />
 
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/idIconMenys"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="70dp"
-                android:layout_marginStart="70dp"
-                android:src="@drawable/ic_remove"
-                android:background="@color/grey"
-               />
-
-            <TextView
-                android:id="@+id/idQuantitat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:text="0" />
-
-            <ImageView
-                android:id="@+id/idIconMes"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="70dp"
-                android:src="@drawable/ic_add"
-                android:background="@color/grey"
-                />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

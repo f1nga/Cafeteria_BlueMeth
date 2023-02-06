@@ -1,8 +1,8 @@
 package com.finga.cafeteria_bluemeth.ui.pages.my_profile
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finga.cafeteria_bluemeth.data.models.Order
@@ -24,7 +24,6 @@ class ShowOrdersActivity : AppCompatActivity() {
 
         setRecyclerView()
         observeOrders()
-
     }
 
     private fun setRecyclerView() {
@@ -36,6 +35,7 @@ class ShowOrdersActivity : AppCompatActivity() {
         itemsRecyclerView.adapter = adapter
     }
 
+    @SuppressLint("SetTextI18n")
     private fun observeOrders() {
         val userEmail = intent.extras?.getString("user_email")!!
 

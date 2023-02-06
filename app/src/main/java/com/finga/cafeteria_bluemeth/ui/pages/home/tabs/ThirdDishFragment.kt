@@ -1,17 +1,17 @@
 package com.finga.cafeteria_bluemeth.ui.pages.home.tabs
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.ui.adapters.ListDishAdapter
 import com.finga.cafeteria_bluemeth.databinding.FragmentThirdDishBinding
@@ -22,18 +22,20 @@ import com.finga.cafeteria_bluemeth.ui.pages.my_profile.MyProfileActivity
 import com.finga.cafeteria_bluemeth.ui.viewmodels.BillViewModel
 import com.finga.cafeteria_bluemeth.ui.viewmodels.DishViewModel
 import com.finga.cafeteria_bluemeth.ui.viewmodels.UserViewModel
+import com.finga.cafeteria_bluemeth.utils.Methods
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ThirdDishFragment : Fragment() {
     private val dishViewModel: DishViewModel by activityViewModels()
     private val billViewModel: BillViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
-    lateinit var listDishAdapter: ListDishAdapter
+    private lateinit var listDishAdapter: ListDishAdapter
     lateinit var binding: FragmentThirdDishBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_third_dish, container, false
@@ -62,37 +64,65 @@ class ThirdDishFragment : Fragment() {
         listDishAdapter.setOnItemClickListener(object: ListDishAdapter.onItemClickListener{
             override fun onItemClick(plat: Dish) {
                 if(userViewModel.userIsLogged()) {
-                    billViewModel.addDishToBill(plat)
-                    Log.i("Third Dish", billViewModel.getPlatsFromBill().toString())
+                    if(!billViewModel.isFullOrder()) {
+                        setBottomSheetDialog(plat)
+                    } else {
+                        alertMessage("No puedes elegir mas de 3 platos!", "CANCELAR", null)
+                    }
                 } else {
-                    notLoginAlert()
+                    alertMessage("Para realizar estas acciones debe iniciar sesión", "INICIAR SESION", Intent(requireContext(), LoginActivity::class.java))
                 }
             }
         })
     }
 
-    private fun notLoginAlert() {
+    private fun alertMessage(desc: String, btnMessage: String, intent: Intent?) {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage("Para realizar estas acciones debe iniciar sesión")
+        builder.setMessage(desc)
             .setCancelable(false)
-            .setPositiveButton("INICIAR SESION") { dialog, _ ->
-                val intent = Intent(requireContext(), LoginActivity::class.java)
-                startActivity(intent)
+            .setPositiveButton(btnMessage) { dialog, _ ->
+                if(intent != null) {
+                    startActivity(intent)
+                }
                 dialog.dismiss()
             }
         val alert = builder.create()
         alert.show()
     }
 
-    //inflate the menu
+    @SuppressLint("SetTextI18n")
+    fun setBottomSheetDialog(dish: Dish) {
+        val dialog = BottomSheetDialog(requireContext())
+
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
+
+        val imgDish = view.findViewById<ImageView>(R.id.img_plat_sheet)
+        val nameDish = view.findViewById<TextView>(R.id.txt_name_plat_sheet)
+        val priceDish = view.findViewById<TextView>(R.id.txt_price_plat_sheet)
+
+        imgDish.setBackgroundResource(Methods.searchDishImage(dish.name))
+        nameDish.text = dish.name
+        priceDish.text = "Precio: ${dish.price}€"
+
+        val btnClose = view.findViewById<Button>(R.id.idBtnDismiss)
+
+        btnClose.setOnClickListener {
+            billViewModel.addDishToBill(dish)
+            dialog.dismiss()
+        }
+
+        dialog.setCancelable(true)
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater!!.inflate(R.menu.menu_main, menu)
+        inflater.inflate(R.menu.menu_main, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    //handle item clicks of menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
+        val id = item.itemId
 
         if (id == R.id.action_faqs) {
             val intent = Intent(requireContext(), FaqsActivity::class.java)
@@ -101,15 +131,19 @@ class ThirdDishFragment : Fragment() {
 
         if (id == R.id.action_my_profile){
             if(userViewModel.userIsLogged() ) {
-                val intent = Intent(requireContext(), MyProfileActivity::class.java)
-                intent.putExtra("user_nickname", userViewModel.getCurrentUser()?.nickname)
-                intent.putExtra("user_email", userViewModel.getCurrentUser()?.email)
-                startActivity(intent)
+                goToMyProfile()
             } else {
-                notLoginAlert()
+                alertMessage("Para realizar estas acciones debe iniciar sesión", "INICIAR SESION", Intent(requireContext(), LoginActivity::class.java))
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun goToMyProfile() {
+        val intent = Intent(requireContext(), MyProfileActivity::class.java)
+        intent.putExtra("user_nickname", userViewModel.getCurrentUser()?.nickname)
+        intent.putExtra("user_email", userViewModel.getCurrentUser()?.email)
+        startActivity(intent)
     }
 }

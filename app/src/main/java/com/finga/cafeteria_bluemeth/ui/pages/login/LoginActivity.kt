@@ -2,10 +2,10 @@ package com.finga.cafeteria_bluemeth.ui.pages.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.finga.cafeteria_bluemeth.data.models.User
 import com.finga.cafeteria_bluemeth.databinding.ActivityLoginBinding
 import com.finga.cafeteria_bluemeth.ui.pages.home.HomeActivity
 import com.finga.cafeteria_bluemeth.ui.register.RegisterActivity
@@ -22,42 +22,54 @@ class LoginActivity : AppCompatActivity() {
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        var btnLogin = binding.btnLogin
+        binding.btnLogin.setOnClickListener() {
+            loginToDatabase()
+        }
 
-        btnLogin.setOnClickListener() {
-            var userEmail = binding.inputEmailText.text.toString()
-            var userPassword = binding.inputPasswordText.text.toString()
+        binding.txtFinal.setOnClickListener() {
+            goToRegister()
+        }
+    }
 
+    private fun loginToDatabase() {
+        val userEmail = binding.inputEmailText.text.toString()
+        val userPassword = binding.inputPasswordText.text.toString()
+
+        if(userEmail == "" || userPassword == "") {
+            alertMessage("Los campos no pueden estar vacíos")
+        } else {
             userViewModel.login(this, userEmail, userPassword).observe(this) {
                 if(it == null) {
-                    val builder = AlertDialog.Builder(this)
-                    builder.setMessage("No existe este usuario")
-                        .setCancelable(false)
-                        .setPositiveButton("TRY AGAIN") { dialog, _ ->
-
-                            dialog.dismiss()
-                        }
-
-
-                    val alert = builder.create()
-                    alert.show()
+                    alertMessage("No existe este usuario")
                 } else {
-                    Log.i("USER", it.email)
-                    val intent = Intent(this, HomeActivity::class.java)
-                    intent.putExtra("user_email", it.email )
-                    intent.putExtra("user_password", it.password )
-                    intent.putExtra("user_nickname", it.nickname )
-                    startActivity(intent)
-
+                    goToHome(it)
                 }
             }
         }
+    }
 
-        var txtFinal = binding.txtFinal
+    private fun alertMessage(desc: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(desc)
+            .setCancelable(false)
+            .setPositiveButton("TRY AGAIN") { dialog, _ ->
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
+    }
 
-        txtFinal.setOnClickListener() {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
+    private fun goToHome(user: User) {
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.putExtra("user_email", user.email )
+        intent.putExtra("user_password", user.password )
+        intent.putExtra("user_nickname", user.nickname )
+        startActivity(intent)
+        finish()
+    }
+
+    private fun goToRegister() {
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
     }
 }

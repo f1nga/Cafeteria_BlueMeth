@@ -3,6 +3,7 @@ package com.finga.cafeteria_bluemeth.ui.register
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.finga.cafeteria_bluemeth.databinding.ActivityRegisterBinding
@@ -24,19 +25,41 @@ class RegisterActivity : AppCompatActivity() {
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         binding.btnRegister.setOnClickListener() {
-            val userNickname = binding.txtInputNickname.text.toString()
-            val userEmail = binding.txtInputEmail.text.toString()
-            val userPassword = binding.txtInputPassword.text.toString()
-
-            userViewModel.addUser(this, User(userNickname, userEmail, userPassword))
-
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            registerUserToDatabase()
         }
 
         binding.txtFinal.setOnClickListener() {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            goToLogin()
         }
+    }
+
+    private fun registerUserToDatabase() {
+        val userNickname = binding.txtInputNickname.text.toString()
+        val userEmail = binding.txtInputEmail.text.toString()
+        val userPassword = binding.txtInputPassword.text.toString()
+
+        if(userNickname == "" || userEmail == "" || userPassword == "") {
+            emptyFieldsAlert()
+        } else {
+            userViewModel.addUser(this, User(userNickname, userEmail, userPassword))
+
+            goToLogin()
+        }
+    }
+
+    private fun emptyFieldsAlert() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Los campos no pueden estar vacíos")
+            .setCancelable(false)
+            .setPositiveButton("TRY AGAIN") { dialog, _ ->
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
+    }
+
+    private fun goToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 }

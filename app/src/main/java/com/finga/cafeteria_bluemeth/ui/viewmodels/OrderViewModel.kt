@@ -1,21 +1,14 @@
 package com.finga.cafeteria_bluemeth.ui.viewmodels
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.finga.cafeteria_bluemeth.data.models.Dish
 import com.finga.cafeteria_bluemeth.data.models.Order
-import com.finga.cafeteria_bluemeth.data.repositories.DishesRepository
 import com.finga.cafeteria_bluemeth.data.repositories.OrderRepository
 import com.finga.cafeteria_bluemeth.utils.Methods
 
 class OrderViewModel: ViewModel() {
     fun addOrder(context: Context, order: Order) {
         OrderRepository.addOrder(context, order)
-    }
-
-    fun deleteOrder(context: Context, id: Int) {
-        OrderRepository.deleteOrder(context, id)
     }
 
     fun getMaxId(context: Context): Int {

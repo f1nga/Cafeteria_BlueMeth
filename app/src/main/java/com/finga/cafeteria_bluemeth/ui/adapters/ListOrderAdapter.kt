@@ -1,6 +1,7 @@
 package com.finga.cafeteria_bluemeth.ui.adapters
 
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.finga.cafeteria_bluemeth.R
 import com.finga.cafeteria_bluemeth.data.models.Order
-import com.finga.cafeteria_bluemeth.ui.adapters.utils.RecyclerClickListener
 import com.finga.cafeteria_bluemeth.utils.Methods
 
 
@@ -25,6 +25,7 @@ class ListOrderAdapter : ListAdapter<Order, ListOrderAdapter.OrderHolder>(DiffCa
         return OrderHolder(v)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: OrderHolder, position: Int) {
         val currentItem = getItem(position)
 

@@ -9,20 +9,13 @@ class BillViewModel : ViewModel() {
     var preuTotal : Int = 0
 
     fun addDishToBill(dish: Dish) {
-        var dishExists = false
-
-        for (plat in listPlats) {
-            if(plat.name == dish.name) {
-                plat.cantidad++
-                dishExists = true
-            }
-        }
-
-        if(!dishExists) {
-            listPlats.add(dish)
-        }
+        listPlats.add(dish)
 
         updatePrice(dish.price)
+    }
+
+    fun removeDishToBill(dish: Dish) {
+        listPlats.remove(dish)
     }
 
     fun getPlatsFromBill(): ArrayList<Dish> {
@@ -35,5 +28,9 @@ class BillViewModel : ViewModel() {
 
     fun getPreu(): Int {
         return preuTotal
+    }
+
+    fun isFullOrder(): Boolean {
+        return listPlats.size >= 3
     }
 }

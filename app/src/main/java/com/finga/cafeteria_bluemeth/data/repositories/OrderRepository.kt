@@ -1,7 +1,6 @@
 package com.finga.cafeteria_bluemeth.data.repositories
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import com.finga.cafeteria_bluemeth.data.models.Order
 import com.finga.cafeteria_bluemeth.data.providers.room.RestaurantDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -9,11 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class OrderRepository {
-
     companion object {
         var orderDatabase: RestaurantDatabase? = null
 
-        fun initializeDB(context: Context): RestaurantDatabase {
+        private fun initializeDB(context: Context): RestaurantDatabase {
             return RestaurantDatabase.getDatabase(context)
         }
 
@@ -21,13 +19,6 @@ class OrderRepository {
             orderDatabase = initializeDB(context)
             CoroutineScope(Dispatchers.IO).launch {
                 orderDatabase!!.orderDAO().addOrder(order)
-            }
-        }
-
-        fun deleteOrder(context: Context, id: Int) {
-            orderDatabase = initializeDB(context)
-            CoroutineScope(Dispatchers.IO).launch {
-                orderDatabase!!.orderDAO().deleteOrder(id)
             }
         }
 

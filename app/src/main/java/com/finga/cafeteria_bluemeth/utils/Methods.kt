@@ -1,14 +1,6 @@
 package com.finga.cafeteria_bluemeth.utils
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
 import com.finga.cafeteria_bluemeth.R
-import com.finga.cafeteria_bluemeth.data.models.Dish
-import com.finga.cafeteria_bluemeth.ui.pages.login.LoginActivity
 
 class Methods {
     companion object {
@@ -39,14 +31,17 @@ class Methods {
                 "Lasagna" -> return 12
                 "Canelons" -> return 9
                 "Menestre" -> return 6
+                "Ensalada" -> return 11
                 "Entrecot" -> return 17
                 "Chuletas" -> return 17
                 "Pollo ast" -> return 11
                 "Pulpito" -> return 19
+                "Solomillo" -> return 15
                 "Natillas" -> return 6
                 "Sorbette" -> return 3
                 "Calippo" -> return 5
                 "Limonada" -> return 4
+                "Coulant" -> return 7
             }
             return -1
         }

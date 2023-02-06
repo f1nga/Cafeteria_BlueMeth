@@ -2,14 +2,12 @@ package com.finga.cafeteria_bluemeth.ui.pages.welcome
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.finga.cafeteria_bluemeth.R
-import com.finga.cafeteria_bluemeth.databinding.FragmentFirstDishBinding
 import com.finga.cafeteria_bluemeth.databinding.FragmentWelcomeBinding
 import com.finga.cafeteria_bluemeth.ui.pages.home.HomeActivity
 import com.finga.cafeteria_bluemeth.ui.pages.login.LoginActivity
@@ -29,28 +27,44 @@ class WelcomeFragment : Fragment() {
         )
         setHasOptionsMenu(true)
 
-        binding.btnToPlats.setOnClickListener() {
-            val intent = Intent(requireContext(), HomeActivity::class.java)
-            intent.putExtra("user_email", "" )
-            intent.putExtra("user_password", "" )
-            intent.putExtra("user_nickname", "" )
-            startActivity(intent)
+        binding.btnToPlats.setOnClickListener {
+            exploreWithoutLogin()
         }
 
-        binding.btnToLogin.setOnClickListener() {
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            startActivity(intent)
+        binding.btnToLogin.setOnClickListener {
+           goToLogin()
         }
 
-        binding.txtFinal.setOnClickListener() {
-            val intent = Intent(requireContext(), RegisterActivity::class.java)
-            startActivity(intent)
+        binding.txtFinal.setOnClickListener {
+            goToRegister()
         }
 
         return binding.root
     }
 
-//
+    private fun exploreWithoutLogin() {
+        val intent = Intent(requireContext(), HomeActivity::class.java)
+        intent.putExtra("user_email", "" )
+        intent.putExtra("user_password", "" )
+        intent.putExtra("user_nickname", "" )
+        startActivity(intent)
+
+        activity?.finish()
+    }
+
+    private fun goToLogin() {
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
+    }
+
+    private fun goToRegister() {
+        val intent = Intent(requireContext(), RegisterActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
+    }
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.
         onNavDestinationSelected(item,requireView().findNavController())
